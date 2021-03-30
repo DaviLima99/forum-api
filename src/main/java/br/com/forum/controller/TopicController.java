@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,8 +33,9 @@ public class TopicController {
         List<Topic> topics = topicRepository.findByCourseName(courseName);
         return  TopicDto.convert(topics);
     }
+
     @PostMapping
-    public ResponseEntity<TopicDto> create(@RequestBody TopicForm data,
+    public ResponseEntity<TopicDto> create(@RequestBody @Valid TopicForm data,
                                            UriComponentsBuilder uriComponentsBuilder) {
         Topic topic = data.convert(courseRepository);
         topicRepository.save(topic);
