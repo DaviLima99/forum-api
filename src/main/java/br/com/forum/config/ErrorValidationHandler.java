@@ -1,6 +1,5 @@
 package br.com.forum.config;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -23,7 +22,6 @@ public class ErrorValidationHandler {
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public List<ErrorFormDto> handle(MethodArgumentNotValidException exception) {
-
         List<ErrorFormDto> dto = new ArrayList<>();
         List<FieldError> errors = exception.getBindingResult().getFieldErrors();
 

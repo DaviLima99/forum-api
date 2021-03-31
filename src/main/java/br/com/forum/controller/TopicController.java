@@ -1,6 +1,7 @@
 package br.com.forum.controller;
 
 import br.com.forum.controller.form.TopicForm;
+import br.com.forum.dto.TopicDetailDto;
 import br.com.forum.dto.TopicDto;
 import br.com.forum.model.Topic;
 import br.com.forum.repository.CourseRepository;
@@ -43,5 +44,11 @@ public class TopicController {
         return ResponseEntity
                 .created(uriComponentsBuilder.path("/topics/{id}").buildAndExpand(topic.getId()).toUri())
                 .body(new TopicDto(topic));
+    }
+
+    @GetMapping("/{id}")
+    public TopicDetailDto detail(@PathVariable Long id) {
+        Topic topic = topicRepository.getOne(id);
+        return new TopicDetailDto(topic);
     }
 }
