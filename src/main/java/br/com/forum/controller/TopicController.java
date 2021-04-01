@@ -38,6 +38,7 @@ public class TopicController {
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<TopicDto> create(@RequestBody @Valid TopicForm data,
                                            UriComponentsBuilder uriComponentsBuilder) {
         Topic topic = data.convert(courseRepository);
@@ -60,5 +61,13 @@ public class TopicController {
         Topic topic = form.update(id, topicRepository);
 
         return ResponseEntity.ok(new TopicDto(topic));
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        topicRepository.deleteById(id);
+
+        return ResponseEntity.ok().build();
     }
 }
