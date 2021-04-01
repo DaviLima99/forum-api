@@ -9,6 +9,7 @@ import br.com.forum.repository.CourseRepository;
 import br.com.forum.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -54,6 +55,7 @@ public class TopicController {
     }
 
     @PutMapping("{/id}")
+    @Transactional
     public ResponseEntity<TopicDto> update(@PathVariable Long id, @RequestBody @Valid TopicUpdateForm form) {
         Topic topic = form.update(id, topicRepository);
 
