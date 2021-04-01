@@ -1,6 +1,7 @@
 package br.com.forum.controller;
 
 import br.com.forum.controller.form.TopicForm;
+import br.com.forum.controller.form.TopicUpdateForm;
 import br.com.forum.dto.TopicDetailDto;
 import br.com.forum.dto.TopicDto;
 import br.com.forum.model.Topic;
@@ -50,5 +51,12 @@ public class TopicController {
     public TopicDetailDto detail(@PathVariable Long id) {
         Topic topic = topicRepository.getOne(id);
         return new TopicDetailDto(topic);
+    }
+
+    @PutMapping("{/id}")
+    public ResponseEntity<TopicDto> update(@PathVariable Long id, @RequestBody @Valid TopicUpdateForm form) {
+        Topic topic = form.update(id, topicRepository);
+
+        return ResponseEntity.ok(new TopicDto(topic));
     }
 }
