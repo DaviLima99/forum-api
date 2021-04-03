@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +32,8 @@ public class TopicController {
 
     @GetMapping
     public Page<TopicDto> list(@RequestParam(required = false) String courseName,
-                            @RequestParam int page, @RequestParam int qty) {
-        Pageable pagination = PageRequest.of(page, qty);
+                            @RequestParam int page, @RequestParam int qty, @RequestParam String order) {
+        Pageable pagination = PageRequest.of(page, qty, Sort.Direction.ASC, order);
 
         if (courseName == null) {
             Page<Topic> topics = topicRepository.findAll(pagination);
