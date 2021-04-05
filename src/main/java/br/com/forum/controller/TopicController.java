@@ -8,6 +8,7 @@ import br.com.forum.model.Topic;
 import br.com.forum.repository.CourseRepository;
 import br.com.forum.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,6 +47,7 @@ public class TopicController {
 
     @PostMapping
     @Transactional
+    @CacheEvict(value="topicList", allEntries = true)
     public ResponseEntity<TopicDto> create(@RequestBody @Valid TopicForm data,
                                            UriComponentsBuilder uriComponentsBuilder) {
         Topic topic = data.convert(courseRepository);
@@ -65,6 +67,7 @@ public class TopicController {
 
     @PutMapping("{/id}")
     @Transactional
+    @CacheEvict(value="topicList", allEntries = true)
     public ResponseEntity<TopicDto> update(@PathVariable Long id, @RequestBody @Valid TopicUpdateForm form) {
         Optional<Topic> topic = topicRepository.findById(id);
         if (topic.isPresent()) {
@@ -77,6 +80,7 @@ public class TopicController {
 
     @DeleteMapping("/{id}")
     @Transactional
+    @CacheEvict(value="topicList", allEntries = true)
     public ResponseEntity<?> delete(@PathVariable Long id) {
         Optional<Topic> topic = topicRepository.findById(id);
         if (topic.isPresent()) {
