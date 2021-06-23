@@ -70,6 +70,7 @@ public class TopicController {
     @CacheEvict(value="topicList", allEntries = true)
     public ResponseEntity<TopicDto> update(@PathVariable Long id, @RequestBody @Valid TopicUpdateForm form) {
         Optional<Topic> topic = topicRepository.findById(id);
+
         if (topic.isPresent()) {
             Topic topicUpdated = form.update(id, topicRepository);
             return ResponseEntity.ok(new TopicDto(topicUpdated));
