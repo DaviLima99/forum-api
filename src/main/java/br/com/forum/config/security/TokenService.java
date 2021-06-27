@@ -1,6 +1,7 @@
 package br.com.forum.config.security;
 
 import br.com.forum.model.User;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,5 +41,11 @@ public class TokenService {
         } catch(Exception e) {
             return false;
         }
+    }
+
+    public Long getUserId(String token) {
+        Claims claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
+        return Long.parseLong(claims.getSubject());
+
     }
 }

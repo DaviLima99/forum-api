@@ -1,5 +1,6 @@
 package br.com.forum.config.security;
 
+import br.com.forum.repository.UserRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +25,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private UserRespository repository;
+
     @Override
     @Bean
     protected AuthenticationManager authenticationManager() throws Exception {
@@ -46,7 +50,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(new AuthenticationTokenFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
+                .and().addFilterBefore(new AuthenticationTokenFilter(tokenService, repository), UsernamePasswordAuthenticationFilter.class);
     }
 
     //Static resources config
